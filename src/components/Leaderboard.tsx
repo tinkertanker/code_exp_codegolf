@@ -17,6 +17,29 @@ function Leaderboard() {
     }
   }
 
+  const formatSolveTime = (seconds: number | null) => {
+    if (!seconds) return 'N/A'
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
+
+  const formatRelativeTime = (timestamp: string) => {
+    const now = new Date()
+    const submissionTime = new Date(timestamp)
+    const diffMs = now.getTime() - submissionTime.getTime()
+    const diffMins = Math.floor(diffMs / (1000 * 60))
+    
+    if (diffMins < 1) return 'Just now'
+    if (diffMins < 60) return `${diffMins}m ago`
+    
+    const diffHours = Math.floor(diffMins / 60)
+    if (diffHours < 24) return `${diffHours}h ago`
+    
+    const diffDays = Math.floor(diffHours / 24)
+    return `${diffDays}d ago`
+  }
+
   useEffect(() => {
     fetchSubmissions()
     
@@ -58,7 +81,8 @@ function Leaderboard() {
                 <th className="px-6 py-3 text-left">Team</th>
                 <th className="px-6 py-3 text-left">Language</th>
                 <th className="px-6 py-3 text-right">Characters</th>
-                <th className="px-6 py-3 text-right">Time</th>
+                <th className="px-6 py-3 text-right">Solve Time</th>
+                <th className="px-6 py-3 text-right">Submitted</th>
               </tr>
             </thead>
             <tbody>
@@ -76,8 +100,11 @@ function Leaderboard() {
                   <td className="px-6 py-4 text-right font-mono">
                     {submission.character_count}
                   </td>
+                  <td className="px-6 py-4 text-right font-mono text-green-400">
+                    {formatSolveTime(submission.solve_time_seconds)}
+                  </td>
                   <td className="px-6 py-4 text-right text-sm text-gray-400">
-                    {new Date(submission.created_at).toLocaleTimeString()}
+                    {formatRelativeTime(submission.created_at)}
                   </td>
                 </tr>
               ))}

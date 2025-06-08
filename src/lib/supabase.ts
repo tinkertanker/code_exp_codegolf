@@ -13,6 +13,7 @@ export type Submission = {
   code: string
   character_count: number
   is_valid: boolean
+  solve_time_seconds: number | null
   created_at: string
 }
 

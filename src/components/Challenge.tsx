@@ -104,6 +104,9 @@ function Challenge() {
         return
       }
 
+      // Calculate solve time
+      const solveTimeSeconds = Math.floor((Date.now() - state.startTime) / 1000)
+
       // Submit to database
       const { error: submitError } = await supabase
         .from('submissions')
@@ -113,7 +116,8 @@ function Challenge() {
           language: 'javascript',
           code,
           character_count: getCharacterCount(code),
-          is_valid: true
+          is_valid: true,
+          solve_time_seconds: solveTimeSeconds
         })
 
       if (submitError) throw submitError
