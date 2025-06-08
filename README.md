@@ -35,22 +35,71 @@ A lightweight web application for running team-based code golf competitions duri
 3. **Create Supabase Project**
    - Sign up at [supabase.com](https://supabase.com)
    - Create a new project
-   - Go to SQL Editor and run the schema from `CLAUDE.md`
+   - Note down your **Project URL** and **Anon Key** from Settings → API
 
-4. **Configure environment**
+4. **Set up database schema**
+   Go to **SQL Editor** in Supabase dashboard and run:
+   ```sql
+   -- Submissions table
+   CREATE TABLE submissions (
+       id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+       category integer NOT NULL CHECK (category IN (1, 2)),
+       team_number integer NOT NULL,
+       language text NOT NULL CHECK (language IN ('javascript')),
+       code text NOT NULL,
+       character_count integer NOT NULL,
+       is_valid boolean NOT NULL DEFAULT false,
+       solve_time_seconds integer,
+       created_at timestamp with time zone DEFAULT now()
+   );
+
+   -- Settings table for admin configuration
+   CREATE TABLE settings (
+       id integer PRIMARY KEY DEFAULT 1,
+       challenge_duration_minutes integer NOT NULL DEFAULT 15
+   );
+
+   -- Insert default settings
+   INSERT INTO settings (challenge_duration_minutes) VALUES (15);
+
+   -- Disable RLS for hackathon simplicity
+   ALTER TABLE submissions DISABLE ROW LEVEL SECURITY;
+   ALTER TABLE settings DISABLE ROW LEVEL SECURITY;
+   ```
+
+5. **Configure environment**
    ```bash
    cp .env.example .env
    ```
    Edit `.env` with your Supabase credentials:
    ```
-   VITE_SUPABASE_URL=your-project-url
-   VITE_SUPABASE_ANON_KEY=your-anon-key
+   VITE_SUPABASE_URL=https://your-project-id.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-key-here
    ```
 
-5. **Run locally**
+6. **Install Supabase CLI and deploy Edge Function**
+   ```bash
+   # Install CLI
+   brew install supabase/tap/supabase
+   
+   # Login to Supabase
+   supabase login
+   
+   # Link to your project (get project-ref from Settings → General → Reference ID)
+   supabase link --project-ref your-project-ref
+   
+   # Make sure Docker is running, then deploy the function
+   supabase functions deploy execute-code
+   ```
+
+7. **Run locally**
    ```bash
    npm run dev
    ```
+   
+   Your app will be available at:
+   - **Team terminals**: `http://localhost:5173/`
+   - **Leaderboard display**: `http://localhost:5173/leaderboard`
 
 ## Usage
 
@@ -93,7 +142,7 @@ Write a program that prints numbers from 1 to 100, but:
 
 ### Supabase Edge Function
 
-The code execution function needs to be deployed separately. See `CLAUDE.md` for detailed instructions.
+The code execution function is deployed via the CLI setup above.
 
 ## Development
 
@@ -108,6 +157,33 @@ The code execution function needs to be deployed separately. See `CLAUDE.md` for
 - **Backend**: Supabase (PostgreSQL + Edge Functions)
 - **Code Editor**: Monaco Editor
 - **Routing**: React Router
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"Failed to test code" error**
+   - Make sure the Edge Function is deployed: `supabase functions deploy execute-code`
+   - Check that Docker is running before deployment
+
+2. **Environment variables not working**
+   - Make sure `.env` file exists with correct Supabase credentials
+   - Restart dev server after changing `.env`
+
+3. **Database connection issues**
+   - Verify your Supabase URL and Anon Key are correct
+   - Check that RLS is disabled on both tables
+
+4. **Tailwind CSS errors**
+   - We use Tailwind CSS v3 for compatibility
+   - Restart dev server if styles aren't loading
+
+### Leaderboard Features
+
+- **Solve Time**: Shows how long teams took to solve (format: `3:45`)
+- **Submitted**: Shows relative time (`2m ago`, `1h ago`)
+- **Auto-refresh**: Updates every 30 seconds
+- **Real-time**: New submissions appear immediately
 
 ## Contributing
 
