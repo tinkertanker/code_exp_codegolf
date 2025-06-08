@@ -23,6 +23,9 @@ function Challenge() {
   const [code, setCode] = useState(STARTER_CODE)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [testResult, setTestResult] = useState<string | null>(null)
+  const [consoleOutput, setConsoleOutput] = useState<string>('')
+  const [isRunning, setIsRunning] = useState(false)
+  const [lastRunTime, setLastRunTime] = useState<number>(0)
 
   useEffect(() => {
     if (!state) {
@@ -35,6 +38,40 @@ function Challenge() {
   const getCharacterCount = (code: string) => {
     // Count characters excluding whitespace
     return code.replace(/\s/g, '').length
+  }
+
+  const handleRun = async () => {
+    const now = Date.now()
+    const timeSinceLastRun = now - lastRunTime
+    const cooldownPeriod = 10000 // 10 seconds
+
+    if (timeSinceLastRun < cooldownPeriod) {
+      const remainingTime = Math.ceil((cooldownPeriod - timeSinceLastRun) / 1000)
+      setConsoleOutput(`⏳ Please wait ${remainingTime} seconds before running again...`)
+      return
+    }
+
+    setIsRunning(true)
+    setConsoleOutput('🚀 Running your code...')
+    setLastRunTime(now)
+
+    try {
+      const { data, error } = await supabase.functions.invoke('execute-code', {
+        body: { code }
+      })
+
+      if (error) throw error
+
+      if (data.success) {
+        setConsoleOutput(data.output || '(no output)')
+      } else {
+        setConsoleOutput(`❌ Error: ${data.error}`)
+      }
+    } catch (error) {
+      setConsoleOutput('❌ Failed to run code. Please try again.')
+    } finally {
+      setIsRunning(false)
+    }
   }
 
   const handleTest = async () => {
@@ -135,7 +172,7 @@ function Challenge() {
         {/* Main Content - Side by Side */}
         <div className="flex gap-4 h-[calc(100vh-200px)]">
           {/* Code Editor - Left Side (5/8 width) */}
-          <div className="flex-1 bg-white rounded-lg shadow-md p-4" style={{ flex: '5' }}>
+          <div className="flex-1 bg-white rounded-lg shadow-md p-4 flex flex-col" style={{ flex: '5' }}>
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-semibold">Your Solution:</h2>
               <span className="text-sm font-mono text-gray-600">
@@ -143,7 +180,8 @@ function Challenge() {
               </span>
             </div>
             
-            <div className="border rounded overflow-hidden h-[calc(100%-120px)]">
+            {/* Code Editor */}
+            <div className="border rounded overflow-hidden flex-1 mb-4">
               <Editor
                 height="100%"
                 language="javascript"
@@ -158,6 +196,51 @@ function Challenge() {
               />
             </div>
 
+            {/* Console Output */}
+            <div className="border rounded bg-gray-900 text-green-400 font-mono text-sm h-32 overflow-y-auto mb-4">
+              <div className="bg-gray-800 px-3 py-1 text-gray-300 text-xs border-b border-gray-700 flex items-center gap-2">
+                <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+                <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+                <span className="ml-2">Console</span>
+              </div>
+              <div className="p-3 whitespace-pre-wrap">
+                {consoleOutput || '> Ready to run your code...'}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <button
+                onClick={handleRun}
+                disabled={isRunning}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 disabled:opacity-50 transition-colors"
+              >
+                {isRunning ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <span>▶️</span>
+                )}
+                {isRunning ? 'Running...' : 'Run'}
+              </button>
+              
+              <button
+                onClick={handleTest}
+                disabled={isSubmitting}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 transition-colors"
+              >
+                🧪 Test Solution
+              </button>
+              
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50 transition-colors"
+              >
+                ✅ Submit Solution
+              </button>
+            </div>
+
             {testResult && (
               <div className={`mt-4 p-3 rounded ${
                 testResult.includes('✓') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
@@ -165,23 +248,6 @@ function Challenge() {
                 {testResult}
               </div>
             )}
-
-            <div className="flex gap-4 mt-4">
-              <button
-                onClick={handleTest}
-                disabled={isSubmitting}
-                className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-              >
-                Test Code
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-              >
-                Submit Solution
-              </button>
-            </div>
           </div>
 
           {/* Instructions - Right Side (3/8 width) */}
