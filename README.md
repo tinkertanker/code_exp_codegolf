@@ -1,54 +1,118 @@
-# React + TypeScript + Vite
+# Mini Code Golf
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight web application for running team-based code golf competitions during hackathons. Teams solve the classic Fizz Buzz problem in the fewest characters possible using Python or JavaScript.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Two Modes**: Team challenge mode for participants and leaderboard display mode for monitors
+- **Language Support**: Python and JavaScript
+- **Live Timer**: Configurable countdown timer (non-enforcing)
+- **Real-time Leaderboard**: Auto-refreshing rankings with language filtering
+- **Character Counting**: Automatic character counting (excluding whitespace)
+- **Code Testing**: Test code before submission with instant feedback
 
-## Expanding the ESLint configuration
+## Quick Start
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Node.js 18+
+- Supabase account (free tier works)
+- Netlify account for deployment (optional)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/tinkertanker/code_exp_codegolf.git
+   cd code_exp_codegolf
+   ```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Create Supabase Project**
+   - Sign up at [supabase.com](https://supabase.com)
+   - Create a new project
+   - Go to SQL Editor and run the schema from `CLAUDE.md`
+
+4. **Configure environment**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` with your Supabase credentials:
+   ```
+   VITE_SUPABASE_URL=your-project-url
+   VITE_SUPABASE_ANON_KEY=your-anon-key
+   ```
+
+5. **Run locally**
+   ```bash
+   npm run dev
+   ```
+
+## Usage
+
+### For Organizers
+
+1. **Set up terminals**: 
+   - Team terminals: Navigate to `http://localhost:5173/`
+   - Display monitors: Navigate to `http://localhost:5173/leaderboard`
+
+2. **Configure timer** (optional):
+   - Update `challenge_duration_minutes` in Supabase dashboard
+   - Default is 15 minutes
+
+### For Participants
+
+1. Enter team category (1 or 2) and team number
+2. Select programming language (Python/JavaScript)
+3. Write your Fizz Buzz solution
+4. Test your code to verify correctness
+5. Submit when ready
+
+## The Challenge
+
+Write a program that prints numbers from 1 to 100, but:
+- For multiples of 3, print "Fizz"
+- For multiples of 5, print "Buzz"
+- For multiples of both 3 and 5, print "FizzBuzz"
+
+## Deployment
+
+### Netlify
+
+1. Push code to GitHub
+2. Connect repository in Netlify
+3. Configure build settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+4. Add environment variables in Netlify dashboard
+5. Deploy!
+
+### Supabase Edge Function
+
+The code execution function needs to be deployed separately. See `CLAUDE.md` for detailed instructions.
+
+## Development
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+
+## Architecture
+
+- **Frontend**: React + TypeScript + Vite
+- **Styling**: Tailwind CSS
+- **Backend**: Supabase (PostgreSQL + Edge Functions)
+- **Code Editor**: Monaco Editor
+- **Routing**: React Router
+
+## Contributing
+
+Feel free to submit issues and pull requests!
+
+## License
+
+MIT
