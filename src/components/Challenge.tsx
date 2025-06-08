@@ -218,6 +218,20 @@ function Challenge() {
                   fontSize: 14,
                   scrollBeyondLastLine: false
                 }}
+                onMount={(editor, monaco) => {
+                  // Add keyboard shortcuts directly to Monaco editor
+                  editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
+                    handleRun()
+                  })
+                  
+                  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KeyT, () => {
+                    handleTest()
+                  })
+                  
+                  editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KeyS, () => {
+                    handleSubmit()
+                  })
+                }}
               />
             </div>
 
