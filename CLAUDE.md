@@ -145,3 +145,91 @@ VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 - Real-time leaderboard
 - Mobile-friendly design
 - Minimal setup and maintenance
+
+## Implementation Plan
+
+### Phase 1: Setup (30 minutes)
+1. **Create Supabase Project**
+   - Sign up at supabase.com
+   - Create new project
+   - Run SQL from schema section above
+   - Note down project URL and anon key
+
+2. **Initialize React App**
+   ```bash
+   npm create vite@latest code-golf -- --template react-ts
+   cd code-golf
+   npm install
+   npm install @supabase/supabase-js
+   npm install -D tailwindcss postcss autoprefixer
+   npx tailwindcss init -p
+   npm install @monaco-editor/react  # Code editor
+   ```
+
+### Phase 2: Core Development (2-3 hours)
+1. **Setup Supabase client** (`src/lib/supabase.ts`)
+2. **Create router** with three routes:
+   - `/` - Team entry view
+   - `/challenge` - Challenge view with timer
+   - `/leaderboard` - Display-only leaderboard
+3. **Build components**:
+   - `TeamEntry.tsx` - Category/team number form
+   - `Challenge.tsx` - Code editor + timer + submit
+   - `Leaderboard.tsx` - Auto-refreshing rankings
+   - `Timer.tsx` - Countdown component
+4. **Create Supabase Edge Function** for code execution
+
+### Phase 3: Code Execution (1 hour)
+1. **Deploy Edge Function**
+   ```bash
+   supabase functions new execute-code
+   # Add code execution logic
+   supabase functions deploy execute-code
+   ```
+2. **Implement sandboxed execution** for Python/JavaScript
+3. **Add Fizz Buzz validation**
+
+### Phase 4: Deployment (30 minutes)
+
+### Netlify Deployment
+Yes! Netlify works perfectly with Supabase. Here's how:
+
+1. **Build Settings**
+   ```
+   Build command: npm run build
+   Publish directory: dist
+   ```
+
+2. **Environment Variables** (in Netlify dashboard)
+   ```
+   VITE_SUPABASE_URL=your-project-url
+   VITE_SUPABASE_ANON_KEY=your-anon-key
+   ```
+
+3. **Deploy Steps**
+   ```bash
+   # Push to GitHub first
+   git add .
+   git commit -m "Complete implementation"
+   git push
+
+   # Then in Netlify:
+   # 1. Import from GitHub
+   # 2. Configure build settings
+   # 3. Add environment variables
+   # 4. Deploy
+   ```
+
+4. **Custom Domain** (optional)
+   - Add custom domain in Netlify settings
+   - Update CORS in Supabase if needed
+
+### Alternative: Vercel
+Also works great with Supabase if you prefer Vercel over Netlify.
+
+## Total Time Estimate
+- Setup: 30 minutes
+- Development: 3-4 hours
+- Testing: 30 minutes
+- Deployment: 30 minutes
+- **Total: ~5 hours**
