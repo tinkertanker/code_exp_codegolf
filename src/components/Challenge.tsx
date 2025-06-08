@@ -41,40 +41,16 @@ function Challenge() {
         return
       }
 
-      // Check if focus is in Monaco editor
-      const activeElement = document.activeElement
-      if (activeElement?.closest('.monaco-editor')) {
-        // Only handle Ctrl/Cmd combinations in editor
-        if (e.ctrlKey || e.metaKey) {
-          if (e.key === 'Enter') {
-            e.preventDefault()
-            handleRun()
-          } else if (e.key === 't') {
-            e.preventDefault()
-            handleTest()
-          } else if (e.key === 's') {
-            e.preventDefault()
-            handleSubmit()
-          }
-        }
-        return
-      }
-
-      // Global shortcuts when not in editor
-      if (e.key === 'F5') {
+      // Use safe keyboard shortcuts that don't conflict with browser
+      if (e.shiftKey && e.key === 'Enter') {
         e.preventDefault()
         handleRun()
-      } else if (e.ctrlKey || e.metaKey) {
-        if (e.key === 'Enter') {
-          e.preventDefault()
-          handleRun()
-        } else if (e.key === 't') {
-          e.preventDefault()
-          handleTest()
-        } else if (e.key === 's') {
-          e.preventDefault()
-          handleSubmit()
-        }
+      } else if (e.altKey && e.key === 't') {
+        e.preventDefault()
+        handleTest()
+      } else if (e.altKey && e.key === 's') {
+        e.preventDefault()
+        handleSubmit()
       }
     }
 
@@ -264,7 +240,7 @@ function Challenge() {
                 onClick={handleRun}
                 disabled={isRunning}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 disabled:opacity-50 transition-colors"
-                title="Run code (Ctrl+Enter or F5)"
+                title="Run code (Shift+Enter)"
               >
                 {isRunning ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -272,29 +248,29 @@ function Challenge() {
                   <span>▶️</span>
                 )}
                 <span>{isRunning ? 'Running...' : 'Run'}</span>
-                <span className="text-xs opacity-75 ml-1">F5</span>
+                <span className="text-xs opacity-75 ml-1">Shift+Enter</span>
               </button>
               
               <button
                 onClick={handleTest}
                 disabled={isSubmitting}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 transition-colors"
-                title="Test solution correctness (Ctrl+T)"
+                title="Test solution correctness (Alt+T)"
               >
                 <span>🧪</span>
                 <span>Test Solution</span>
-                <span className="text-xs opacity-75 ml-1">Ctrl+T</span>
+                <span className="text-xs opacity-75 ml-1">Alt+T</span>
               </button>
               
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
                 className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50 transition-colors"
-                title="Submit final solution (Ctrl+S)"
+                title="Submit final solution (Alt+S)"
               >
                 <span>✅</span>
                 <span>Submit Solution</span>
-                <span className="text-xs opacity-75 ml-1">Ctrl+S</span>
+                <span className="text-xs opacity-75 ml-1">Alt+S</span>
               </button>
             </div>
 
