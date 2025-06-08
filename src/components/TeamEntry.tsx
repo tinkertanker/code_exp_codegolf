@@ -5,7 +5,7 @@ function TeamEntry() {
   const navigate = useNavigate()
   const [category, setCategory] = useState<1 | 2>(1)
   const [teamNumber, setTeamNumber] = useState('')
-  const [language] = useState<'javascript'>('javascript')
+  const language: 'javascript' = 'javascript'
 
   const handleStart = () => {
     if (!teamNumber) {
@@ -26,7 +26,8 @@ function TeamEntry() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 className="text-3xl font-bold mb-6 text-center">Code Golf Challenge</h1>
+        <h1 className="text-3xl font-bold mb-2 text-center">Code Golf Challenge</h1>
+        <p className="text-lg text-gray-600 mb-6 text-center">JavaScript Fizz Buzz</p>
         
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Category</label>
@@ -65,12 +66,6 @@ function TeamEntry() {
           />
         </div>
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-2">Language</label>
-          <div className="w-full p-2 border rounded bg-gray-50 text-gray-700">
-            JavaScript
-          </div>
-        </div>
 
         <button
           onClick={handleStart}

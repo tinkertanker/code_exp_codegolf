@@ -345,6 +345,7 @@ function Challenge() {
               <div className="border-t pt-4">
                 <p className="font-medium mb-2">Tips:</p>
                 <ul className="list-disc list-inside space-y-1 text-gray-700 text-xs">
+                  <li>Language: <strong>JavaScript</strong></li>
                   <li>Use <code className="bg-gray-100 px-1 rounded">console.log()</code> to print output</li>
                   <li>Use the modulo operator <code className="bg-gray-100 px-1 rounded">%</code> to check divisibility</li>
                   <li>Shorter code = better score!</li>
