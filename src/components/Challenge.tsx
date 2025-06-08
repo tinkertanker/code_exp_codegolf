@@ -86,7 +86,7 @@ function Challenge() {
     return code.replace(/\s/g, '').length
   }
 
-  const handleRun = async () => {
+  const handleRunWithCode = async (codeToRun: string) => {
     // Check if still in cooldown
     if (cooldownRemaining > 0) {
       return
@@ -99,7 +99,7 @@ function Challenge() {
 
     try {
       const { data, error } = await supabase.functions.invoke('execute-code', {
-        body: { code }
+        body: { code: codeToRun }
       })
 
       if (error) throw error
@@ -116,13 +116,17 @@ function Challenge() {
     }
   }
 
-  const handleTest = async () => {
+  const handleRun = async () => {
+    handleRunWithCode(code)
+  }
+
+  const handleTestWithCode = async (codeToTest: string) => {
     setIsSubmitting(true)
     setTestResult(null)
 
     try {
       const { data, error } = await supabase.functions.invoke('execute-code', {
-        body: { code }
+        body: { code: codeToTest }
       })
 
       if (error) throw error
@@ -139,13 +143,17 @@ function Challenge() {
     }
   }
 
-  const handleSubmit = async () => {
+  const handleTest = async () => {
+    handleTestWithCode(code)
+  }
+
+  const handleSubmitWithCode = async (codeToSubmit: string) => {
     setIsSubmitting(true)
 
     try {
       // First test the code
       const { data: testData, error: testError } = await supabase.functions.invoke('execute-code', {
-        body: { code }
+        body: { code: codeToSubmit }
       })
 
       if (testError) throw testError
@@ -172,8 +180,8 @@ function Challenge() {
           category: state.category,
           team_number: state.teamNumber,
           language: 'javascript',
-          code,
-          character_count: getCharacterCount(code),
+          code: codeToSubmit,
+          character_count: getCharacterCount(codeToSubmit),
           is_valid: true,
           solve_time_seconds: solveTimeSeconds
         })
@@ -187,6 +195,10 @@ function Challenge() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleSubmit = async () => {
+    handleSubmitWithCode(code)
   }
 
   return (
@@ -238,15 +250,19 @@ function Challenge() {
                 onMount={(editor, monaco) => {
                   // Add keyboard shortcuts directly to Monaco editor
                   editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
-                    handleRun()
+                    // Get current code value directly from editor to avoid stale closure
+                    const currentCode = editor.getValue()
+                    handleRunWithCode(currentCode)
                   })
                   
                   editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KeyT, () => {
-                    handleTest()
+                    const currentCode = editor.getValue()
+                    handleTestWithCode(currentCode)
                   })
                   
                   editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KeyS, () => {
-                    handleSubmit()
+                    const currentCode = editor.getValue()
+                    handleSubmitWithCode(currentCode)
                   })
                 }}
               />
