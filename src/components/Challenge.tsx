@@ -133,10 +133,14 @@ function Challenge() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-white rounded-lg shadow-md p-6 mb-4">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">Fizz Buzz Challenge</h1>
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold">Fizz Buzz Challenge</h1>
+              <p className="text-sm text-gray-600">Team {state.category}-{state.teamNumber}</p>
+            </div>
             <div className="flex items-center gap-4">
               <Timer startTime={state.startTime} />
               <button
@@ -147,63 +151,104 @@ function Challenge() {
               </button>
             </div>
           </div>
-          
-          <div className="mb-4">
-            <p className="text-sm text-gray-600">
-              Team {state.category}-{state.teamNumber}
-            </p>
-          </div>
+        </div>
 
-          <div className="mb-4 p-4 bg-gray-50 rounded">
-            <h2 className="font-semibold mb-2">Problem Description:</h2>
-            <pre className="whitespace-pre-wrap font-mono text-sm">{PROBLEM_DESCRIPTION}</pre>
-          </div>
-
-          <div className="mb-4">
-            <div className="flex justify-between items-center mb-2">
+        {/* Main Content - Side by Side */}
+        <div className="flex gap-4 h-[calc(100vh-200px)]">
+          {/* Code Editor - Left Side (5/8 width) */}
+          <div className="flex-1 bg-white rounded-lg shadow-md p-4" style={{ flex: '5' }}>
+            <div className="flex justify-between items-center mb-4">
               <h2 className="font-semibold">Your Solution:</h2>
-              <span className="text-sm font-mono">
+              <span className="text-sm font-mono text-gray-600">
                 Characters: {getCharacterCount(code)}
               </span>
             </div>
-            <div className="border rounded overflow-hidden">
+            
+            <div className="border rounded overflow-hidden h-[calc(100%-120px)]">
               <Editor
-                height="400px"
+                height="100%"
                 language="javascript"
                 value={code}
                 onChange={(value) => setCode(value || '')}
                 theme="vs-dark"
                 options={{
                   minimap: { enabled: false },
-                  fontSize: 14
+                  fontSize: 14,
+                  scrollBeyondLastLine: false
                 }}
               />
             </div>
+
+            {testResult && (
+              <div className={`mt-4 p-3 rounded ${
+                testResult.includes('✓') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+              }`}>
+                {testResult}
+              </div>
+            )}
+
+            <div className="flex gap-4 mt-4">
+              <button
+                onClick={handleTest}
+                disabled={isSubmitting}
+                className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+              >
+                Test Code
+              </button>
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+              >
+                Submit Solution
+              </button>
+            </div>
           </div>
 
-          {testResult && (
-            <div className={`mb-4 p-3 rounded ${
-              testResult.includes('✓') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-            }`}>
-              {testResult}
-            </div>
-          )}
+          {/* Instructions - Right Side (3/8 width) */}
+          <div className="bg-white rounded-lg shadow-md p-4" style={{ flex: '3' }}>
+            <h2 className="font-semibold mb-4">Problem Description</h2>
+            <div className="text-sm space-y-4">
+              <div>
+                <p className="font-medium mb-2">Print numbers from 1 to 100, but:</p>
+                <ul className="list-disc list-inside space-y-1 text-gray-700">
+                  <li>For multiples of 3, print "Fizz"</li>
+                  <li>For multiples of 5, print "Buzz"</li>
+                  <li>For multiples of both 3 and 5, print "FizzBuzz"</li>
+                </ul>
+              </div>
+              
+              <div>
+                <p className="font-medium mb-2">Example output:</p>
+                <div className="bg-gray-50 p-3 rounded font-mono text-xs overflow-y-auto max-h-96">
+                  <div>1</div>
+                  <div>2</div>
+                  <div>Fizz</div>
+                  <div>4</div>
+                  <div>Buzz</div>
+                  <div>Fizz</div>
+                  <div>7</div>
+                  <div>8</div>
+                  <div>Fizz</div>
+                  <div>Buzz</div>
+                  <div>11</div>
+                  <div>Fizz</div>
+                  <div>13</div>
+                  <div>14</div>
+                  <div>FizzBuzz</div>
+                  <div className="text-gray-400">...</div>
+                </div>
+              </div>
 
-          <div className="flex gap-4">
-            <button
-              onClick={handleTest}
-              disabled={isSubmitting}
-              className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-            >
-              Test Code
-            </button>
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
-            >
-              Submit Solution
-            </button>
+              <div className="border-t pt-4">
+                <p className="font-medium mb-2">Tips:</p>
+                <ul className="list-disc list-inside space-y-1 text-gray-700 text-xs">
+                  <li>Use <code className="bg-gray-100 px-1 rounded">console.log()</code> to print output</li>
+                  <li>Use the modulo operator <code className="bg-gray-100 px-1 rounded">%</code> to check divisibility</li>
+                  <li>Shorter code = better score!</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
