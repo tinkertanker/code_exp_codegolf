@@ -10,6 +10,7 @@ function Leaderboard() {
       .select('*')
       .eq('is_valid', true)
       .order('character_count', { ascending: true })
+      .order('solve_time_seconds', { ascending: true })
       .order('created_at', { ascending: true })
 
     if (data) {
