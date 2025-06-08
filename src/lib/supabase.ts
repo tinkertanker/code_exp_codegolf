@@ -9,7 +9,7 @@ export type Submission = {
   id: string
   category: 1 | 2
   team_number: number
-  language: 'python' | 'javascript'
+  language: 'javascript'
   code: string
   character_count: number
   is_valid: boolean

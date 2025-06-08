@@ -5,7 +5,7 @@ function TeamEntry() {
   const navigate = useNavigate()
   const [category, setCategory] = useState<1 | 2>(1)
   const [teamNumber, setTeamNumber] = useState('')
-  const [language, setLanguage] = useState<'python' | 'javascript'>('python')
+  const [language] = useState<'javascript'>('javascript')
 
   const handleStart = () => {
     if (!teamNumber) {
@@ -67,14 +67,9 @@ function TeamEntry() {
 
         <div className="mb-6">
           <label className="block text-sm font-medium mb-2">Language</label>
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value as 'python' | 'javascript')}
-            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="python">Python</option>
-            <option value="javascript">JavaScript</option>
-          </select>
+          <div className="w-full p-2 border rounded bg-gray-50 text-gray-700">
+            JavaScript
+          </div>
         </div>
 
         <button

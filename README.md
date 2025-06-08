@@ -1,11 +1,11 @@
 # Mini Code Golf
 
-A lightweight web application for running team-based code golf competitions during hackathons. Teams solve the classic Fizz Buzz problem in the fewest characters possible using Python or JavaScript.
+A lightweight web application for running team-based code golf competitions during hackathons. Teams solve the classic Fizz Buzz problem in the fewest characters possible using JavaScript.
 
 ## Features
 
 - **Two Modes**: Team challenge mode for participants and leaderboard display mode for monitors
-- **Language Support**: Python and JavaScript
+- **Language Support**: JavaScript
 - **Live Timer**: Configurable countdown timer (non-enforcing)
 - **Real-time Leaderboard**: Auto-refreshing rankings with language filtering
 - **Character Counting**: Automatic character counting (excluding whitespace)
@@ -67,7 +67,7 @@ A lightweight web application for running team-based code golf competitions duri
 ### For Participants
 
 1. Enter team category (1 or 2) and team number
-2. Select programming language (Python/JavaScript)
+2. Code will be executed in JavaScript
 3. Write your Fizz Buzz solution
 4. Test your code to verify correctness
 5. Submit when ready

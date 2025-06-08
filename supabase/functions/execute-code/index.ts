@@ -12,65 +12,32 @@ serve(async (req) => {
   }
 
   try {
-    const { code, language } = await req.json()
+    const { code } = await req.json()
 
     let output = ''
     let isValid = false
 
-    if (language === 'javascript') {
-      // Execute JavaScript code
-      try {
-        // Capture console.log output
-        const logs: string[] = []
-        const originalLog = console.log
-        console.log = (...args) => {
-          logs.push(args.join(' '))
-        }
-
-        // Create a safe eval environment
-        const func = new Function(code)
-        func()
-
-        // Restore console.log
-        console.log = originalLog
-        output = logs.join('\n')
-      } catch (error) {
-        return new Response(
-          JSON.stringify({ success: false, error: error.message }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        )
+    // Execute JavaScript code
+    try {
+      // Capture console.log output
+      const logs: string[] = []
+      const originalLog = console.log
+      console.log = (...args) => {
+        logs.push(args.join(' '))
       }
-    } else if (language === 'python') {
-      // Execute Python code using subprocess
-      try {
-        const tempFile = await Deno.makeTempFile({ suffix: '.py' })
-        await Deno.writeTextFile(tempFile, code)
-        
-        const process = new Deno.Command('python3', {
-          args: [tempFile],
-          stdout: 'piped',
-          stderr: 'piped',
-        })
-        
-        const { stdout, stderr, success } = await process.output()
-        
-        await Deno.remove(tempFile)
-        
-        if (!success) {
-          const errorText = new TextDecoder().decode(stderr)
-          return new Response(
-            JSON.stringify({ success: false, error: errorText }),
-            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-          )
-        }
-        
-        output = new TextDecoder().decode(stdout)
-      } catch (error) {
-        return new Response(
-          JSON.stringify({ success: false, error: error.message }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        )
-      }
+
+      // Create a safe eval environment
+      const func = new Function(code)
+      func()
+
+      // Restore console.log
+      console.log = originalLog
+      output = logs.join('\n')
+    } catch (error) {
+      return new Response(
+        JSON.stringify({ success: false, error: error.message }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
     }
 
     // Validate Fizz Buzz output

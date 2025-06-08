@@ -7,7 +7,7 @@ import Timer from './Timer'
 interface LocationState {
   category: 1 | 2
   teamNumber: number
-  language: 'python' | 'javascript'
+  language: 'javascript'
   startTime: number
 }
 
@@ -34,17 +34,14 @@ Fizz
 FizzBuzz
 ...`
 
-const STARTER_CODE = {
-  python: '# Write your Fizz Buzz solution here\n',
-  javascript: '// Write your Fizz Buzz solution here\n'
-}
+const STARTER_CODE = '// Write your Fizz Buzz solution here\n'
 
 function Challenge() {
   const navigate = useNavigate()
   const location = useLocation()
   const state = location.state as LocationState
 
-  const [code, setCode] = useState(STARTER_CODE[state?.language || 'python'])
+  const [code, setCode] = useState(STARTER_CODE)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [testResult, setTestResult] = useState<string | null>(null)
 
@@ -67,7 +64,7 @@ function Challenge() {
 
     try {
       const { data, error } = await supabase.functions.invoke('execute-code', {
-        body: { code, language: state.language }
+        body: { code }
       })
 
       if (error) throw error
@@ -90,7 +87,7 @@ function Challenge() {
     try {
       // First test the code
       const { data: testData, error: testError } = await supabase.functions.invoke('execute-code', {
-        body: { code, language: state.language }
+        body: { code }
       })
 
       if (testError) throw testError
@@ -113,7 +110,7 @@ function Challenge() {
         .insert({
           category: state.category,
           team_number: state.teamNumber,
-          language: state.language,
+          language: 'javascript',
           code,
           character_count: getCharacterCount(code),
           is_valid: true
@@ -149,7 +146,7 @@ function Challenge() {
           
           <div className="mb-4">
             <p className="text-sm text-gray-600">
-              Team {state.category}-{state.teamNumber} | {state.language.toUpperCase()}
+              Team {state.category}-{state.teamNumber}
             </p>
           </div>
 
@@ -168,7 +165,7 @@ function Challenge() {
             <div className="border rounded overflow-hidden">
               <Editor
                 height="400px"
-                language={state.language}
+                language="javascript"
                 value={code}
                 onChange={(value) => setCode(value || '')}
                 theme="vs-dark"
