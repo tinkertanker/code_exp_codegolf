@@ -11,28 +11,7 @@ interface LocationState {
   startTime: number
 }
 
-const PROBLEM_DESCRIPTION = `Print numbers from 1 to 100, but:
-- For multiples of 3, print "Fizz"
-- For multiples of 5, print "Buzz"
-- For multiples of both 3 and 5, print "FizzBuzz"
-
-Example output:
-1
-2
-Fizz
-4
-Buzz
-Fizz
-7
-8
-Fizz
-Buzz
-11
-Fizz
-13
-14
-FizzBuzz
-...`
+// Problem description is now inline in the JSX
 
 const STARTER_CODE = '// Write your Fizz Buzz solution here\n'
 
