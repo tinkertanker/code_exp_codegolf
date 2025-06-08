@@ -4,12 +4,30 @@ A lightweight web application for running team-based code golf competitions duri
 
 ## Features
 
+### 🎮 **Core Functionality**
 - **Two Modes**: Team challenge mode for participants and leaderboard display mode for monitors
-- **Language Support**: JavaScript
-- **Live Timer**: Configurable countdown timer (non-enforcing)
-- **Real-time Leaderboard**: Auto-refreshing rankings with language filtering
-- **Character Counting**: Automatic character counting (excluding whitespace)
-- **Code Testing**: Test code before submission with instant feedback
+- **JavaScript Only**: Simplified language setup with clear labeling
+- **Smart Team Naming**: Format `cat-1-team-42` for clear identification
+
+### 💻 **Advanced Code Editor**
+- **Monaco Editor**: VS Code-like editing experience
+- **Terminal Console**: macOS-style output with live feedback
+- **Rate Limiting**: 10-second cooldown with live countdown
+- **Keyboard Shortcuts**: Shift+Enter (run), Alt+T (test), Alt+S (submit)
+- **Character Counting**: Real-time count excluding whitespace
+
+### 🏆 **Professional Leaderboard**
+- **Large Screen Optimized**: Spectacular display for monitors/projectors
+- **Medal System**: Gold/Silver/Bronze highlighting for top 3 teams
+- **Dual Time Tracking**: Solve time + relative submission time
+- **Smart Tiebreakers**: Character count → solve time → submission time
+- **Auto-refresh**: Updates every 30 seconds with real-time submissions
+
+### ⚡ **Developer Experience**
+- **Live Testing**: Run code and see output before submission
+- **Instant Feedback**: Immediate validation of solutions
+- **Error Handling**: Clear error messages and timeout management
+- **Browser Safe**: Keyboard shortcuts that don't conflict with browser functions
 
 ## Quick Start
 
@@ -116,10 +134,11 @@ A lightweight web application for running team-based code golf competitions duri
 ### For Participants
 
 1. Enter team category (1 or 2) and team number
-2. Code will be executed in JavaScript
-3. Write your Fizz Buzz solution
-4. Test your code to verify correctness
-5. Submit when ready
+2. Write your JavaScript Fizz Buzz solution in the Monaco editor
+3. Use **Shift+Enter** to run and see output in console
+4. Use **Alt+T** to test solution correctness
+5. Use **Alt+S** to submit when ready
+6. Aim for shortest character count and fastest solve time!
 
 ## The Challenge
 
@@ -180,10 +199,24 @@ The code execution function is deployed via the CLI setup above.
 
 ### Leaderboard Features
 
-- **Solve Time**: Shows how long teams took to solve (format: `3:45`)
-- **Submitted**: Shows relative time (`2m ago`, `1h ago`)
+- **Medal System**: Gold 🥇, Silver 🥈, Bronze 🥉 for top 3 teams
+- **Large Screen Design**: Optimized for monitors and projectors
+- **Dual Time Display**:
+  - **Solve Time**: How long team took to solve (format: `3:45`)
+  - **Submitted**: Relative time since submission (`2m ago`, `1h ago`)
+- **Smart Ranking**:
+  1. **Primary**: Character count (lower wins)
+  2. **Tiebreaker**: Solve time (faster wins)
+  3. **Final**: Submission time (earlier wins)
 - **Auto-refresh**: Updates every 30 seconds
 - **Real-time**: New submissions appear immediately
+
+### Keyboard Shortcuts
+
+- **Shift+Enter**: Run code and see output
+- **Alt+T**: Test solution for correctness
+- **Alt+S**: Submit final solution
+- **Rate Limited**: 10-second cooldown between runs with live countdown
 
 ## Contributing
 
