@@ -204,7 +204,7 @@ function Challenge() {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold">Fizz Buzz Challenge</h1>
-              <p className="text-sm text-gray-600">Team {state.category}-{state.teamNumber}</p>
+              <p className="text-sm text-gray-600">cat-{state.category}-team-{state.teamNumber}</p>
             </div>
             <div className="flex items-center gap-4">
               <Timer startTime={state.startTime} />

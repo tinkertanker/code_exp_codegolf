@@ -129,7 +129,7 @@ function Leaderboard() {
                     </td>
                     <td className="px-8 py-6">
                       <span className={`text-3xl font-bold ${rank <= 3 ? 'text-shadow' : ''}`}>
-                        Team {submission.category}-{submission.team_number}
+                        cat-{submission.category}-team-{submission.team_number}
                       </span>
                     </td>
                     <td className="px-8 py-6 text-right">
