@@ -26,6 +26,7 @@ function Challenge() {
   const [consoleOutput, setConsoleOutput] = useState<string>('')
   const [isRunning, setIsRunning] = useState(false)
   const [lastRunTime, setLastRunTime] = useState<number>(0)
+  const [cooldownRemaining, setCooldownRemaining] = useState<number>(0)
 
   useEffect(() => {
     if (!state) {
@@ -58,6 +59,26 @@ function Challenge() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isRunning, isSubmitting, lastRunTime, code, state]) // Dependencies to ensure latest state
 
+  // Cooldown timer effect
+  useEffect(() => {
+    if (lastRunTime === 0) return
+
+    const updateCooldown = () => {
+      const now = Date.now()
+      const timeSinceLastRun = now - lastRunTime
+      const cooldownPeriod = 10000 // 10 seconds
+      const remaining = Math.max(0, cooldownPeriod - timeSinceLastRun)
+      
+      setCooldownRemaining(Math.ceil(remaining / 1000))
+      
+      if (remaining > 0) {
+        setTimeout(updateCooldown, 100) // Update every 100ms for smooth countdown
+      }
+    }
+
+    updateCooldown()
+  }, [lastRunTime])
+
   if (!state) return null
 
   const getCharacterCount = (code: string) => {
@@ -66,16 +87,12 @@ function Challenge() {
   }
 
   const handleRun = async () => {
-    const now = Date.now()
-    const timeSinceLastRun = now - lastRunTime
-    const cooldownPeriod = 10000 // 10 seconds
-
-    if (timeSinceLastRun < cooldownPeriod) {
-      const remainingTime = Math.ceil((cooldownPeriod - timeSinceLastRun) / 1000)
-      setConsoleOutput(`⏳ Please wait ${remainingTime} seconds before running again...`)
+    // Check if still in cooldown
+    if (cooldownRemaining > 0) {
       return
     }
 
+    const now = Date.now()
     setIsRunning(true)
     setConsoleOutput('🚀 Running your code...')
     setLastRunTime(now)
@@ -252,16 +269,25 @@ function Challenge() {
             <div className="flex gap-3">
               <button
                 onClick={handleRun}
-                disabled={isRunning}
+                disabled={isRunning || cooldownRemaining > 0}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 disabled:opacity-50 transition-colors"
                 title="Run code (Shift+Enter)"
               >
                 {isRunning ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : cooldownRemaining > 0 ? (
+                  <span>⏳</span>
                 ) : (
                   <span>▶️</span>
                 )}
-                <span>{isRunning ? 'Running...' : 'Run'}</span>
+                <span>
+                  {isRunning 
+                    ? 'Running...' 
+                    : cooldownRemaining > 0 
+                      ? `Wait ${cooldownRemaining}s` 
+                      : 'Run'
+                  }
+                </span>
                 <span className="text-xs opacity-75 ml-1">Shift+Enter</span>
               </button>
               
