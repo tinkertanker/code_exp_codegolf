@@ -133,12 +133,16 @@ function Leaderboard() {
                       </span>
                     </td>
                     <td className="px-8 py-6 text-right">
-                      <span className="text-3xl font-mono font-bold text-green-400">
+                      <span className={`text-3xl font-mono font-bold ${
+                        rank <= 3 ? 'text-gray-800' : 'text-green-400'
+                      }`}>
                         {submission.character_count}
                       </span>
                     </td>
                     <td className="px-8 py-6 text-right">
-                      <span className="text-2xl font-mono text-blue-400">
+                      <span className={`text-2xl font-mono font-bold ${
+                        rank <= 3 ? 'text-gray-800' : 'text-yellow-400'
+                      }`}>
                         {formatSolveTime(submission.solve_time_seconds)}
                       </span>
                     </td>
