@@ -40,8 +40,8 @@ serve(async (req) => {
       )
     }
 
-    // Validate Fizz Buzz output
-    const expectedOutput = generateFizzBuzz()
+    // Validate prime numbers output
+    const expectedOutput = generatePrimes()
     isValid = output.trim() === expectedOutput.trim()
 
     return new Response(
@@ -60,6 +60,26 @@ serve(async (req) => {
   }
 })
 
+function generatePrimes(): string {
+  const primes: number[] = []
+  
+  for (let num = 2; num <= 100; num++) {
+    let isPrime = true
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+      if (num % i === 0) {
+        isPrime = false
+        break
+      }
+    }
+    if (isPrime) {
+      primes.push(num)
+    }
+  }
+  
+  return primes.map(p => p.toString()).join('\n')
+}
+
+// Keep FizzBuzz for testing purposes
 function generateFizzBuzz(): string {
   const result: string[] = []
   for (let i = 1; i <= 100; i++) {

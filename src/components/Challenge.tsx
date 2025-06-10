@@ -13,7 +13,7 @@ interface LocationState {
 
 // Problem description is now inline in the JSX
 
-const STARTER_CODE = '// Write your Fizz Buzz solution here\n'
+const STARTER_CODE = '// Write your prime numbers solution here\n'
 
 function Challenge() {
   const navigate = useNavigate()
@@ -208,7 +208,7 @@ function Challenge() {
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold">Fizz Buzz Challenge</h1>
+              <h1 className="text-2xl font-bold">Prime Numbers Challenge</h1>
               <p className="text-sm text-gray-600">cat-{state.category}-team-{state.teamNumber}</p>
             </div>
             <div className="flex items-center gap-4">
@@ -344,33 +344,29 @@ function Challenge() {
             <h2 className="font-semibold mb-4">Problem Description</h2>
             <div className="text-sm space-y-4">
               <div>
-                <p className="font-medium mb-2">Print numbers from 1 to 100, but:</p>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>For multiples of 3, print "Fizz"</li>
-                  <li>For multiples of 5, print "Buzz"</li>
-                  <li>For multiples of both 3 and 5, print "FizzBuzz"</li>
-                </ul>
+                <p className="font-medium mb-2">Find and print all prime numbers from 1 to 100</p>
+                <p className="text-gray-700">A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.</p>
               </div>
               
               <div>
-                <p className="font-medium mb-2">Example output:</p>
+                <p className="font-medium mb-2">Expected output:</p>
                 <div className="bg-gray-50 p-3 rounded font-mono text-xs overflow-y-auto max-h-96">
-                  <div>1</div>
                   <div>2</div>
-                  <div>Fizz</div>
-                  <div>4</div>
-                  <div>Buzz</div>
-                  <div>Fizz</div>
+                  <div>3</div>
+                  <div>5</div>
                   <div>7</div>
-                  <div>8</div>
-                  <div>Fizz</div>
-                  <div>Buzz</div>
                   <div>11</div>
-                  <div>Fizz</div>
                   <div>13</div>
-                  <div>14</div>
-                  <div>FizzBuzz</div>
-                  <div className="text-gray-400">...</div>
+                  <div>17</div>
+                  <div>19</div>
+                  <div>23</div>
+                  <div>29</div>
+                  <div>31</div>
+                  <div>37</div>
+                  <div>41</div>
+                  <div>43</div>
+                  <div>47</div>
+                  <div className="text-gray-400">... (25 total)</div>
                 </div>
               </div>
 
@@ -378,8 +374,9 @@ function Challenge() {
                 <p className="font-medium mb-2">Tips:</p>
                 <ul className="list-disc list-inside space-y-1 text-gray-700 text-xs">
                   <li>Language: <strong>JavaScript</strong></li>
-                  <li>Use <code className="bg-gray-100 px-1 rounded">console.log()</code> to print output</li>
-                  <li>Use the modulo operator <code className="bg-gray-100 px-1 rounded">%</code> to check divisibility</li>
+                  <li>Use <code className="bg-gray-100 px-1 rounded">console.log()</code> to print each prime</li>
+                  <li>Print one prime per line</li>
+                  <li>Multiple algorithms possible: trial division, sieve, etc.</li>
                   <li>Shorter code = better score!</li>
                 </ul>
               </div>
