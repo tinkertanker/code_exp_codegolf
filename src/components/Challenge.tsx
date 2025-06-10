@@ -377,6 +377,7 @@ function Challenge() {
                   <li>Use <code className="bg-gray-100 px-1 rounded">console.log()</code> to print each prime</li>
                   <li>Print one prime per line</li>
                   <li>Multiple algorithms possible: trial division, sieve, etc.</li>
+                  <li>Test as many times as you'd like</li>
                   <li>Shorter code = better score!</li>
                 </ul>
               </div>

@@ -27,7 +27,7 @@ function TeamEntry() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
         <h1 className="text-3xl font-bold mb-2 text-center">Code Golf Challenge</h1>
-        <p className="text-lg text-gray-600 mb-6 text-center">JavaScript Fizz Buzz</p>
+        <p className="text-lg text-gray-600 mb-6 text-center">JavaScript Prime Numbers</p>
         
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Category</label>
