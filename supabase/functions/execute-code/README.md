@@ -39,9 +39,9 @@ This Edge Function executes Python and JavaScript code submissions for the Code 
 
 3. Test with curl:
    ```bash
-   curl -i --location --request POST 'http://localhost:54321/functions/v1/execute-code' \
-     --header 'Content-Type: application/json' \
-     --data '{"code":"for(let i=1;i<=100;i++){console.log(i%15==0?\"FizzBuzz\":i%3==0?\"Fizz\":i%5==0?\"Buzz\":i)}","language":"javascript"}'
+    curl -i --location --request POST 'http://localhost:54321/functions/v1/execute-code' \
+      --header 'Content-Type: application/json' \
+      --data '{"code":"for(let n=2;n<=100;n++){let p=true;for(let i=2;i<n;i++)if(n%i==0){p=false;break;}if(p)console.log(n)}","language":"javascript"}'
    ```
 
 ## Notes
@@ -49,4 +49,4 @@ This Edge Function executes Python and JavaScript code submissions for the Code 
 - JavaScript execution uses sandboxed Function constructor
 - Python execution requires Python 3 in the Supabase Edge Runtime
 - Output is limited to 500 characters for safety
-- Validates against expected Fizz Buzz output
+- Validates against expected prime numbers output

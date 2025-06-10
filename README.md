@@ -1,6 +1,6 @@
 # Mini Code Golf
 
-A lightweight web application for running team-based code golf competitions during hackathons. Teams solve the classic Fizz Buzz problem in the fewest characters possible using JavaScript.
+A lightweight web application for running team-based code golf competitions during hackathons. Teams now solve a prime numbers challenge in the fewest characters possible using JavaScript.
 
 ## Features
 
@@ -134,7 +134,7 @@ A lightweight web application for running team-based code golf competitions duri
 ### For Participants
 
 1. Enter team category (1 or 2) and team number
-2. Write your JavaScript Fizz Buzz solution in the Monaco editor
+2. Write your JavaScript prime numbers solution in the Monaco editor
 3. Use **Shift+Enter** to run and see output in console
 4. Use **Alt+T** to test solution correctness
 5. Use **Alt+S** to submit when ready
@@ -142,10 +142,7 @@ A lightweight web application for running team-based code golf competitions duri
 
 ## The Challenge
 
-Write a program that prints numbers from 1 to 100, but:
-- For multiples of 3, print "Fizz"
-- For multiples of 5, print "Buzz"
-- For multiples of both 3 and 5, print "FizzBuzz"
+Write a program that prints all prime numbers from 1 to 100, one per line.
 
 ## Deployment
 

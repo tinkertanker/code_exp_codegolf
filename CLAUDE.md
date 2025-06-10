@@ -1,10 +1,10 @@
 # Mini Code Golf - Lightweight Specification
 
 ## Overview
-A lightweight web app for team-based code golf competitions with Supabase backend. Teams approach terminals, enter their name, solve Fizz Buzz, and compete on a leaderboard.
+A lightweight web app for team-based code golf competitions with Supabase backend. Teams approach terminals, enter their name, solve a prime numbers challenge, and compete on a leaderboard.
 
-## Selected Problem: Fizz Buzz
-Print numbers 1 to 100, but replace multiples of 3 with "Fizz", multiples of 5 with "Buzz", and multiples of both with "FizzBuzz".
+## Selected Problem: Prime Numbers
+Print all prime numbers from 1 to 100, one per line.
 
 ## Tech Stack (Lightweight)
 - **Frontend**: React + TypeScript + Vite
