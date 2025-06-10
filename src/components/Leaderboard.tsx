@@ -98,7 +98,7 @@ function Leaderboard() {
           <h1 className="text-7xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
             🏆 CODE GOLF LEADERBOARD 🏆
           </h1>
-          <p className="text-2xl text-gray-300">JavaScript Fizz Buzz Challenge</p>
+          <p className="text-2xl text-gray-300">JavaScript Prime Numbers Challenge</p>
           <p className="text-lg text-gray-400 mt-2">Shortest code wins!</p>
         </div>
 
